@@ -13,14 +13,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          'Bem vindo ao Localiza',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+        title: Image.asset('lib/assets/logo.png', width: 100),
         centerTitle: true,
       ),
 
@@ -30,7 +23,6 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Image.asset('lib/logo.png'),
               Text('Insira o CEP:'),
               TextBoxWidget(),
               SizedBox(height: 20),
