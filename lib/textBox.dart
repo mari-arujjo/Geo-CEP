@@ -1,3 +1,4 @@
+import 'package:av5devmoveis/cores.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_multi_formatter/formatters/masked_input_formatter.dart';
 
@@ -14,15 +15,15 @@ class _TextBoxWidgetState extends State<TextBoxWidget> {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: widget.controller,
-      cursorColor: const Color.fromARGB(190, 113, 216, 117),
+      cursorColor: Cores().verdeEscuro,
       maxLength: 9,
       keyboardType: TextInputType.number,
       inputFormatters: [MaskedInputFormatter('#####-###')],
       decoration: InputDecoration(
         filled: true,
-        fillColor: const Color.fromARGB(255, 230, 248, 188),
+        fillColor: Cores().verdeClaro,
         hintText: '00000-000',
-        hintStyle: TextStyle(color: Colors.green),
+        hintStyle: TextStyle(color: Cores().verdeEscuro),
         border: UnderlineInputBorder(borderRadius: BorderRadius.circular(10)),
         focusedBorder: UnderlineInputBorder(
           borderRadius: BorderRadius.circular(10),
