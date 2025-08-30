@@ -14,24 +14,27 @@ class Mapa extends StatefulWidget {
 class _MapaState extends State<Mapa> {
   @override
   Widget build(BuildContext context) {
-    return FlutterMap(
-      mapController: widget.controller,
-      options: MapOptions(initialCenter: widget.latLong, initialZoom: 10),
-      children: [
-        TileLayer(
-          urlTemplate: 'https://{s}.tile.openstreetmap.de/{z}/{x}/{y}.png',
-          subdomains: ['a', 'b', 'c'],
-          userAgentPackageName: 'com.geocep.app',
-        ),
-        MarkerLayer(
-          markers: [
-            Marker(
-              point: widget.latLong,
-              child: Icon(Icons.location_pin, color: Colors.red, size: 50),
-            ),
-          ],
-        ),
-      ],
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(15),
+      child: FlutterMap(
+        mapController: widget.controller,
+        options: MapOptions(initialCenter: widget.latLong, initialZoom: 10),
+        children: [
+          TileLayer(
+            urlTemplate: 'https://{s}.tile.openstreetmap.de/{z}/{x}/{y}.png',
+            subdomains: ['a', 'b', 'c'],
+            userAgentPackageName: 'com.geocep.app',
+          ),
+          MarkerLayer(
+            markers: [
+              Marker(
+                point: widget.latLong,
+                child: Icon(Icons.location_pin, color: Colors.red, size: 50),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }

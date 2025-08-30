@@ -1,6 +1,7 @@
-import 'package:geo_cep/API/endereco_model.dart';
+import 'package:flutter/foundation.dart';
 import 'package:geo_cep/API/endereco_repository.dart';
 import 'package:geo_cep/API/http_client.dart';
+import 'package:geo_cep/API/nominatim_repositry.dart';
 import 'package:geo_cep/widgets/button.dart';
 import 'package:geo_cep/widgets/mapa.dart';
 import 'package:geo_cep/widgets/textBox.dart';
@@ -17,10 +18,12 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final MapController mapController = MapController();
-  final repository = EnderecoRepository(client: HttpClient());
+  final enderecoRepository = EnderecoRepository(client: HttpClient());
+  final nominatimRepository = NominatimRepositry(client: HttpClient());
   final TextEditingController cepController = TextEditingController();
   final double latitude = -5.8119077;
   final double longitude = -35.2045234;
+  LatLng _latLngAtual = LatLng(-5.8119077, -35.2045234);
 
   @override
   void dispose() {
@@ -38,7 +41,7 @@ class _HomePageState extends State<HomePage> {
 
       body: Center(
         child: Padding(
-          padding: EdgeInsets.all(30),
+          padding: EdgeInsets.all(20),
           child: Column(
             children: [
               Row(
@@ -57,23 +60,31 @@ class _HomePageState extends State<HomePage> {
                   Expanded(
                     child: BotaoWidget(
                       onPressed: () async {
-                        var req = await repository.obterEndereco(
+                        final endereco = await enderecoRepository.obterEndereco(
                           cepController.text,
                         );
-                        final endereco =
-                            '${req.cep}, ${req.logradouro}, ${req.complemento}, ${req.unidade}, ${req.bairro}, ${req.localidade}, ${req.uf}, ${req.estado}, ${req.regiao}, ${req.ibge}, ${req.gia}, ${req.ddd}, ${req.siafi}';
-                        //print(endereco);
+                        final coordenadas = await nominatimRepository
+                            .obterCoordenadas(endereco);
+                        setState(() {
+                          _latLngAtual = LatLng(
+                            coordenadas.latitude,
+                            coordenadas.latitude,
+                          );
+                        });
+                        mapController.move(_latLngAtual, 12);
+                        if (kDebugMode) {
+                          print(endereco);
+                          print(coordenadas);
+                          print(_latLngAtual);
+                        }
                       },
                     ),
                   ),
                 ],
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 10),
               Expanded(
-                child: Mapa(
-                  controller: mapController,
-                  latLong: LatLng(latitude, longitude),
-                ),
+                child: Mapa(controller: mapController, latLong: _latLngAtual),
               ),
             ],
           ),

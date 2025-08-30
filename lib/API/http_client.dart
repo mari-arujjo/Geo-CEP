@@ -11,4 +11,8 @@ class HttpClient extends IHttpClient {
   get({required String url}) async {
     return await client.get(Uri.parse(url));
   }
+
+  getWithHeader({required String url, Map<String, String>? headers}) async {
+    return await client.get(Uri.parse(url), headers: headers);
+  }
 }

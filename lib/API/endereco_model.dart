@@ -23,10 +23,6 @@ class EnderecoModel {
     this.uf,
     this.estado,
     this.regiao,
-    this.ibge,
-    this.gia,
-    this.ddd,
-    this.siafi,
   });
 
   //PARA RECEBER OS DADOS
@@ -41,10 +37,6 @@ class EnderecoModel {
       uf: map['uf'] ?? '',
       estado: map['estado'] ?? '',
       regiao: map['regiao'] ?? '',
-      ibge: map['ibge'] ?? '',
-      gia: map['gia'] ?? '',
-      ddd: map['ddd'] ?? '',
-      siafi: map['siafi'] ?? '',
     );
   }
 
