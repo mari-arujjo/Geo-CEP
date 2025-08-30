@@ -16,17 +16,20 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  MapController mapController = MapController();
+  final MapController mapController = MapController();
+  final repository = EnderecoRepository(client: HttpClient());
+  final TextEditingController cepController = TextEditingController();
+  final double latitude = -5.8119077;
+  final double longitude = -35.2045234;
+
+  @override
+  void dispose() {
+    super.dispose();
+    cepController.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final repository = EnderecoRepository(client: HttpClient());
-    final TextEditingController cepController = TextEditingController();
-    final double latitude = -5.8119077;
-    final double longitude = -35.2045234;
-
-    print('${latitude}, ${longitude}');
-
     return Scaffold(
       appBar: AppBar(
         title: Image.asset('assets/logo.png', width: 120),
@@ -59,7 +62,7 @@ class _HomePageState extends State<HomePage> {
                         );
                         final endereco =
                             '${req.cep}, ${req.logradouro}, ${req.complemento}, ${req.unidade}, ${req.bairro}, ${req.localidade}, ${req.uf}, ${req.estado}, ${req.regiao}, ${req.ibge}, ${req.gia}, ${req.ddd}, ${req.siafi}';
-                        print(endereco);
+                        //print(endereco);
                       },
                     ),
                   ),
