@@ -1,4 +1,4 @@
-import 'package:av5devmoveis/cores.dart';
+import 'package:geo_cep/cores.dart';
 import 'package:flutter/material.dart';
 
 class BotaoWidget extends StatefulWidget {

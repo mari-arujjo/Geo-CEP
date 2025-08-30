@@ -1,5 +1,9 @@
-import 'package:av5devmoveis/button.dart';
-import 'package:av5devmoveis/textBox.dart';
+import 'package:geo_cep/API/endereco_model.dart';
+import 'package:geo_cep/API/endereco_repository.dart';
+import 'package:geo_cep/API/http_client.dart';
+import 'package:geo_cep/widgets/button.dart';
+import 'package:geo_cep/widgets/mapa.dart';
+import 'package:geo_cep/widgets/textBox.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
@@ -16,9 +20,16 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final repository = EnderecoRepository(client: HttpClient());
+    final TextEditingController cepController = TextEditingController();
+    final double latitude = -5.8119077;
+    final double longitude = -35.2045234;
+
+    print('${latitude}, ${longitude}');
+
     return Scaffold(
       appBar: AppBar(
-        title: Image.asset('lib/assets/logo.png', width: 120),
+        title: Image.asset('assets/logo.png', width: 120),
         centerTitle: true,
       ),
 
@@ -35,30 +46,30 @@ class _HomePageState extends State<HomePage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text('Insira o CEP:', style: TextStyle(fontSize: 16)),
-                        TextBoxWidget(),
+                        TextBoxWidget(controller: cepController),
                       ],
                     ),
                   ),
                   SizedBox(width: 10),
-                  Expanded(child: BotaoWidget(onPressed: () {})),
+                  Expanded(
+                    child: BotaoWidget(
+                      onPressed: () async {
+                        var req = await repository.obterEndereco(
+                          cepController.text,
+                        );
+                        final endereco =
+                            '${req.cep}, ${req.logradouro}, ${req.complemento}, ${req.unidade}, ${req.bairro}, ${req.localidade}, ${req.uf}, ${req.estado}, ${req.regiao}, ${req.ibge}, ${req.gia}, ${req.ddd}, ${req.siafi}';
+                        print(endereco);
+                      },
+                    ),
+                  ),
                 ],
               ),
               SizedBox(height: 20),
               Expanded(
-                child: FlutterMap(
-                  mapController: mapController,
-                  options: MapOptions(
-                    initialCenter: LatLng(-5.8119077, -35.2045234),
-                    initialZoom: 10,
-                  ),
-                  children: [
-                    TileLayer(
-                      urlTemplate:
-                          'https://{s}.tile.openstreetmap.de/{z}/{x}/{y}.png',
-                      subdomains: ['a', 'b', 'c'],
-                      userAgentPackageName: 'com.geocep.app',
-                    ),
-                  ],
+                child: Mapa(
+                  controller: mapController,
+                  latLong: LatLng(latitude, longitude),
                 ),
               ),
             ],

@@ -1,4 +1,4 @@
-import 'package:av5devmoveis/home.dart';
+import 'package:geo_cep/home.dart';
 import 'package:flutter/material.dart';
 
 void main() {
