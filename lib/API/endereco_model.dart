@@ -1,7 +1,6 @@
 class EnderecoModel {
   String cep;
   String? logradouro;
-  String? complemento;
   String? unidade;
   String? bairro;
   String? localidade;
@@ -16,7 +15,6 @@ class EnderecoModel {
   EnderecoModel({
     required this.cep,
     this.logradouro,
-    this.complemento,
     this.unidade,
     this.bairro,
     this.localidade,
@@ -30,7 +28,6 @@ class EnderecoModel {
     return EnderecoModel(
       cep: map['cep'] ?? '',
       logradouro: map['logradouro'] ?? '',
-      complemento: map['complemento'] ?? '',
       unidade: map['unidade'] ?? '',
       bairro: map['bairro'] ?? '',
       localidade: map['localidade'] ?? '',

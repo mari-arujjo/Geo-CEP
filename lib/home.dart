@@ -22,11 +22,10 @@ class _HomePageState extends State<HomePage> {
   final enderecoRepository = EnderecoRepository(client: HttpClient());
   final nominatimRepository = NominatimRepository(client: HttpClient());
   final TextEditingController cepController = TextEditingController();
-  final double latitude = -5.8119077;
-  final double longitude = -35.2045234;
-  LatLng _latLngAtual = LatLng(-5.8119077, -35.2045234);
+  LatLng _latLngAtual = LatLng(-5.8095244, -35.2038655);
   final cor = Cores();
-  String enderecoFormatado = '';
+  String enderecoFormatado =
+      '• Logradouro: Avenida Senador Salgado Filho\n• Bairro: Tirol\n• Cidade: Natal\n• UF: Rio Grande de Norte - Brasil';
 
   @override
   void dispose() {
@@ -40,6 +39,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: Image.asset('assets/logo.png', width: 120),
         centerTitle: true,
+        actions: <Widget>[IconButton(onPressed: () {}, icon: Icon(Icons.info))],
       ),
 
       body: Center(
@@ -74,27 +74,29 @@ class _HomePageState extends State<HomePage> {
                               .obterEndereco(cepController.text);
                           final coordenadas = await nominatimRepository
                               .obterCoordenadas(endereco);
-                          if (endereco.logradouro == '' &&
-                              endereco.complemento == '' &&
-                              endereco.bairro == '' &&
-                              endereco.localidade == '' &&
-                              endereco.estado == '') {
-                            throw ('Não foi possível obter todas as informações do endereço.');
-                          }
+
                           setState(() {
                             _latLngAtual = LatLng(
                               coordenadas.latitude,
                               coordenadas.longitude,
                             );
+                            enderecoFormatado =
+                                '• Logradouro: ${endereco.logradouro}\n• Bairro: ${endereco.bairro}\n• Cidade: ${endereco.localidade}\n• UF: ${endereco.estado} - Brasil';
                           });
+
                           mapController.move(_latLngAtual, 12);
-                          enderecoFormatado =
-                              '• Logradouro: ${endereco.logradouro}\n• Complemento: ${endereco.complemento}\n• Bairro: ${endereco.bairro}\n• Cidade: ${endereco.localidade}\n• UF: ${endereco.estado} - Brasil';
+
                           if (kDebugMode) {
                             print(
-                              '${endereco.logradouro}, ${endereco.complemento}, ${endereco.bairro}, ${endereco.localidade}, ${endereco.estado} - Brasil',
+                              '${endereco.logradouro}, ${endereco.bairro}, ${endereco.localidade}, ${endereco.estado} - Brasil',
                             );
                             print(_latLngAtual);
+                          }
+                          if (endereco.logradouro == '' &&
+                              endereco.bairro == '' &&
+                              endereco.localidade == '' &&
+                              endereco.estado == '') {
+                            throw ('Não foi possível obter todas as informações do endereço.');
                           }
                         } catch (e) {
                           if (kDebugMode) {

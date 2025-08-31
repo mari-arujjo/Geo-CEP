@@ -13,6 +13,9 @@ class EnderecoRepository {
         url: 'https://viacep.com.br/ws/$cep/json/',
       );
       final body = jsonDecode(response.body) as Map<String, dynamic>;
+      if (body.containsKey('erro')) {
+        throw ('CEP inválido ou não encontrado na base do ViaCEP: $cep.');
+      }
       if (response.statusCode == 200) {
         return EnderecoModel.fromMap(body);
       } else {

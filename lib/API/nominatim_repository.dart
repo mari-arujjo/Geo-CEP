@@ -11,7 +11,7 @@ class NominatimRepository {
 
   Future<CoordenadasModel> obterCoordenadas(EnderecoModel endereco) async {
     final String enderecoCompleto =
-        '${endereco.logradouro}, ${endereco.complemento}, ${endereco.bairro}, ${endereco.localidade}, ${endereco.estado} - Brasil';
+        '${endereco.logradouro}, ${endereco.bairro}, ${endereco.localidade}, ${endereco.estado} - Brasil';
     final String enderecoQuery = Uri.encodeComponent(enderecoCompleto);
     try {
       final response = await client.getWithHeader(
@@ -27,7 +27,7 @@ class NominatimRepository {
           final lon = double.parse(data['lon']);
           return CoordenadasModel(latitude: lat, longitude: lon);
         } else {
-          throw ('Endereço não encontrado pelo Nominatim.');
+          throw ('Endereço não encontrado pelo Nominatim: $enderecoCompleto, $enderecoQuery');
         }
       } else {
         throw ('ERRO: ${response.statusCode}');
