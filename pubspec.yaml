@@ -13,6 +13,7 @@ dependencies:
   flutter_multi_formatter: ^2.13.10
   flutter_map: ^8.2.1
   latlong2: ^0.9.1
+  url_launcher: ^6.3.2
   
 
 dev_dependencies:

@@ -1,22 +1,23 @@
 import 'package:geo_cep/cores.dart';
 import 'package:flutter/material.dart';
 
-class BotaoWidget extends StatefulWidget {
+class BotaoSearchWidget extends StatefulWidget {
   final VoidCallback onPressed;
-  const BotaoWidget({super.key, required this.onPressed});
+  const BotaoSearchWidget({super.key, required this.onPressed});
 
   @override
-  State<BotaoWidget> createState() => _BotaoWidgetState();
+  State<BotaoSearchWidget> createState() => _BotaoSearchWidgetState();
 }
 
-class _BotaoWidgetState extends State<BotaoWidget> {
+class _BotaoSearchWidgetState extends State<BotaoSearchWidget> {
+  final cores = Cores();
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: widget.onPressed,
       style: ButtonStyle(
-        backgroundColor: WidgetStatePropertyAll<Color>(Cores().verdeEscuro),
-        overlayColor: WidgetStatePropertyAll<Color>(Cores().verdeClaro),
+        backgroundColor: WidgetStatePropertyAll<Color>(cores.verdeEscuro),
+        overlayColor: WidgetStatePropertyAll<Color>(cores.verdeClaro),
         shape: WidgetStatePropertyAll(
           RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
         ),
